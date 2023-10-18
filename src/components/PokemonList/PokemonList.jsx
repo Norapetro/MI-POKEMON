@@ -1,6 +1,6 @@
-export default function PokemonList() {
-  
-  const getPokemonCard = () => {
+import { PokemonItem } from "../PokemonItem/PokemonItem";
+export function PokemonList({ datos }) {
+  /*const getPokemonCard = () => {
     return (
       <div className="card">
         <div className="photo">
@@ -19,11 +19,13 @@ export default function PokemonList() {
         </div>
       </div>
     );
-  };
+  };*/
 
   return (
-    <div className="contenido">
-      {getPokemonCard()}
+    <div className="container">
+      {data.map((pokemon, index) => (
+        
+      ))}
     </div>
   );
 }
