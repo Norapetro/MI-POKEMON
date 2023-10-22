@@ -1,15 +1,12 @@
-import './styles.scss'
+import "./styles.scss";
 
-export default function Header() {
+export default function Header({ action }) {
   return (
     <div className="header">
-      <div className="title">Pokedex</div>
+      <div className="title">Pokemon</div>
       <div className="search">
-        <input type="text" className="searchbox" />
-        <button className="searchbutton">
-          <i className="fas fa-search"></i>
-        </button>
+        <input type="text" className="searchbox" onChange={action} />
       </div>
     </div>
-  )
+  );
 }

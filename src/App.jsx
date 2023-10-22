@@ -1,13 +1,12 @@
 import { useState, useEffect } from "react";
 import Header from "./components/Header/Header";
-import { PokemonItem } from "./components/PokemonItem/PokemonItem";
-//import mockData from "./assets/mockData.json";
+import { PokemonList } from "./components/PokemonList/PokemonList";
 import axios from "axios";
-
 import "./App.css";
 
 function App() {
   const [pokemonList, setPokemonList] = useState([]);
+  const [pokemonFilterList, setPokemonFilterList] = useState([]);
 
   useEffect(() => {
     const solicitarDetallePokemon = async (pokemonObjects) => {
@@ -20,16 +19,13 @@ function App() {
         }),
       );
       setPokemonList(detailedPokenonList); //Setemos el resultado en el ESTADO.
-
-      /*await axios.get(
-        "https://pokeapi.co/api/v2/pokemon?limit=13&offset=0",
-      );*/
+      setPokemonFilterList(detailedPokenonList);
     };
 
     const fetchPokemonList = async () => {
       try {
         const response = await axios.get(
-          "https://pokeapi.co/api/v2/pokemon?limit=13&offset=0",
+          "https://pokeapi.co/api/v2/pokemon?limit=50&offset=0",
         );
         const pokemonObjects = response?.data?.results; //si existe la lista llamamos al metodo que pide lo demas
         solicitarDetallePokemon(pokemonObjects);
@@ -38,30 +34,26 @@ function App() {
       }
     };
 
-    /*const lista = [];
-    axios
-      .get("https://pokeapi.co/api/v2/pokemon?limit=13&offset=0")
-      .then((resp) =>
-        resp?.data?.results.map((pokemonObject) => {
-          // console.log(pokemonObject.name); treamos los nombres
-          axios.get(pokemonObject.url).then(
-            //traemos toda la data de pokemon
-            (pokemon) => lista.push(pokemon.data),
-          );
-        }),
-      );
-      pokemonList.length > 0 && setPokemonList(lista);*/
     fetchPokemonList();
   }, []);
+
+  function search(event) {
+    const namePokemon = event.target.value.toLowerCase();
+    if (namePokemon == "") {
+      setPokemonFilterList(pokemonList);
+    } else {
+      let pokemon = pokemonList.filter(function (element) {
+        return element.name == namePokemon;
+      });
+      setPokemonFilterList(pokemon);
+    }
+  }
 
   return (
     <>
       <div className="container">
-        <Header />
-        {pokemonList !== [] &&
-          pokemonList.map((pokemon, index) => (
-            <PokemonItem key={index} pokemonData={pokemon} />
-          ))}
+        <Header action={search} />
+        <PokemonList data={pokemonFilterList} />
       </div>
     </>
   );
