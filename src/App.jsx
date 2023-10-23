@@ -25,7 +25,7 @@ function App() {
     const fetchPokemonList = async () => {
       try {
         const response = await axios.get(
-          "https://pokeapi.co/api/v2/pokemon?limit=50&offset=0",
+          "https://pokeapi.co/api/v2/pokemon?limit=500&offset=0",
         );
         const pokemonObjects = response?.data?.results; //si existe la lista llamamos al metodo que pide lo demas
         solicitarDetallePokemon(pokemonObjects);
